@@ -1,0 +1,47 @@
+[
+    {
+      "img": "https://randomuser.me/api/portraits/men/32.jpg",
+      "name": "Yahya Benslimane",
+      "email": "yahya@example.com",
+      "payroll": "WEWFGR1235",
+      "depratementColor": "#FFD700",
+      "departement": "Engineering",
+      "role": "Frontend Developer",
+      "joiningDate": "2022-03-15",
+      "contractType": "CDI"
+    },
+    {
+      "img": "https://randomuser.me/api/portraits/women/45.jpg",
+      "name": "Sofia Haddad",
+      "email": "sofia@example.com",
+      "payroll": "231SFWE24",
+      "depratementColor": "#FF69B4",
+      "departement": "Human Resources",
+      "role": "HR Specialist",
+      "joiningDate": "2021-08-01",
+      "contractType": "CDD"
+    },
+    {
+      "img": "https://randomuser.me/api/portraits/men/54.jpg",
+      "name": "Mehdi Ziane",
+      "email": "mehdi@example.com",
+      "payroll": "642DFGW",
+      "depratementColor": "#90EE90",
+      "departement": "Management",
+      "role": "Team Lead",
+      "joiningDate": "2020-01-12",
+      "contractType": "CDI"
+    },
+    {
+      "img": "https://randomuser.me/api/portraits/women/67.jpg",
+      "name": "Lina Kacem",
+      "email": "lina@example.com",
+      "payroll": "32DFG354",
+      "depratementColor": "#D3D3D3",
+      "departement": "Internship",
+      "role": "Intern",
+      "joiningDate": "2024-06-01",
+      "contractType": "Stage"
+    }
+  ]
+  
