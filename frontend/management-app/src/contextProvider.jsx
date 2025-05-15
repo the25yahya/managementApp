@@ -8,9 +8,11 @@ export const ContextProvider = ({children})=>{
     const [view,setView] = useState("list")
     /////////////////////////// user session //////////////////////////////////
     const [user, setUser] = useState(() => Cookies.get('token') || null);
+    const [employees, setEmployees] = useState([]);
+    const [filteredEmployees, setFilteredEmployees] = useState([]);
 
     return(
-        <StateContext.Provider value={{view,setView,user,setUser}}>
+        <StateContext.Provider value={{view,setView,user,setUser,employees, setEmployees,filteredEmployees, setFilteredEmployees}}>
             {children}
         </StateContext.Provider>
     )

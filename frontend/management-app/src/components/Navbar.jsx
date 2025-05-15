@@ -63,16 +63,6 @@ function Navbar() {
           <p className='text-sm'>Dashboard</p>
         </div>
         <div
-          className='flex items-center gap-2 mb-5 cursor-pointer'
-          onClick={() => navigate('/dashboard/employees')}
-          role="button"
-          tabIndex={0}
-          onKeyPress={(e) => { if (e.key === 'Enter') navigate('/dashboard/employees') }}
-        >
-          <LuUsers className='text-2xl' />
-          <p className='text-sm'>Employés</p>
-        </div>
-        <div
           className='flex items-center gap-2 mb-5 whitespace-nowrap cursor-pointer'
           onClick={() => navigate('/dashboard/add-employee')}
           role="button"

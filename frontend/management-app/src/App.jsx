@@ -8,7 +8,7 @@ import { useStateContext } from './contextProvider';
 import AddEmployee from './pages/AddEmployee';
 import Settings from './pages/Settings';
 import Notifications from './pages/Notifications';
-
+import DepartmentSchedule from './pages/DepartmentSchedule';
 
 function App() {
   const { user } = useStateContext();
@@ -28,6 +28,7 @@ function App() {
           <Route path="add-employee" element={<AddEmployee/>} />
           <Route path="settings" element={<Settings/>} />
           <Route path="notifications" element={<Notifications/>} />
+          <Route path="schedules" element={<DepartmentSchedule/>} />
           {/* Add more nested routes here */}
         </Route>
 

@@ -9,8 +9,7 @@ import { useStateContext } from '../contextProvider';
 const API_URL = import.meta.env.VITE_API_URL;
 
 function Dashboard() {
-  const { view, setView } = useStateContext();
-  const [employees, setEmployees] = useState([]);
+  const { view, setView, employees, setEmployees, filteredEmployees } = useStateContext();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -33,6 +32,11 @@ function Dashboard() {
 
     fetchEmployees();
   }, []);
+
+  // Use filtered list if available, otherwise show all
+  const employeesToRender = filteredEmployees?.length > 0 || filteredEmployees?.length === 0
+    ? filteredEmployees
+    : employees;
 
   return (
     <div className='bg-white w-full p-8 rounded-xl shadow-md'>
@@ -72,7 +76,7 @@ function Dashboard() {
       {/* Render list view */}
       {view === 'list' && !loading && !error && (
         <div className="border-x space-y-4">
-          {employees.map((person, index) => (
+          {employeesToRender.map((person, index) => (
             <ListView key={index} {...person} />
           ))}
         </div>
@@ -81,7 +85,7 @@ function Dashboard() {
       {/* Render card view */}
       {view === 'card' && !loading && !error && (
         <div className="flex flex-wrap gap-4 mt-6 shadow-sm">
-          {employees.map((person, index) => (
+          {employeesToRender.map((person, index) => (
             <CardView key={index} {...person} />
           ))}
         </div>

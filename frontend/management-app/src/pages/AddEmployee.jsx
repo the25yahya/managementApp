@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const initialState = {
   name: '',
   payroll: '',
@@ -18,6 +20,7 @@ function AddEmployee({ onSuccess }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    console.log(`Input changed: ${name} = ${value}`); // Debug input changes
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -25,23 +28,29 @@ function AddEmployee({ onSuccess }) {
     e.preventDefault();
     setLoading(true);
     setError('');
+    console.log('Submitting form with data:', form); // Debug form submit payload
 
     try {
-      const res = await fetch('/api/employees/add', {
+      const res = await fetch(`${API_URL}/api/employees/add`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
       });
 
+      console.log('Response status:', res.status);
+
       if (!res.ok) {
         const err = await res.json();
+        console.error('Server error response:', err);
         throw new Error(err.error || 'Failed to add employee');
       }
 
       const added = await res.json();
+      console.log('Added employee:', added);
       setForm(initialState);
-      onSuccess?.(added); // Optional callback to reload or notify
+      onSuccess?.(added);
     } catch (err) {
+      console.error('Error caught in handleSubmit:', err);
       setError(err.message);
     } finally {
       setLoading(false);
@@ -59,7 +68,7 @@ function AddEmployee({ onSuccess }) {
           { name: 'payroll', label: 'Salaire' },
           { name: 'departement', label: 'Département' },
           { name: 'role', label: 'Rôle' },
-          { name: 'joiningDate', label: 'Date d\'adhésion', type: 'date' },
+          { name: 'joiningDate', label: "Date d'adhésion", type: 'date' },
           { name: 'contractType', label: 'Type de contrat' },
           { name: 'img', label: 'Lien vers la photo' },
         ].map(({ name, label, type = 'text' }) => (

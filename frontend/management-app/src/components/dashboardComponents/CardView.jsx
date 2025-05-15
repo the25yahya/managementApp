@@ -24,13 +24,13 @@ function CardView(props) {
 
         <div className='flex items-center justify-between'>
           <span className='text-gray-500'>Contrat:</span>
-          <span className='font-medium'>{props.contractType}</span>
+          <span className='font-medium'>{props.contract_type}</span>
         </div>
 
         <div className='flex items-center justify-between'>
           <span className='text-gray-500'>Département:</span>
           <div className='flex items-center gap-2'>
-            <span className='w-2 h-2 rounded-full' style={{ backgroundColor: props.depratementColor }}></span>
+            <span className='w-2 h-2 rounded-full' style={{ backgroundColor: props.depratement_color }}></span>
             <span className='font-medium'>{props.departement}</span>
           </div>
         </div>
@@ -39,7 +39,7 @@ function CardView(props) {
           <span className='text-gray-500'>Date:</span>
           <div className='flex items-center gap-1'>
             <CiCalendarDate className='text-lg text-gray-600' />
-            <span className='font-medium'>{props.joiningDate}</span>
+            <span className='font-medium'>{props.joining_date}</span>
           </div>
         </div>
       </div>

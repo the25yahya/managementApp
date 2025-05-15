@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const pool = require('../db'); // Make sure this exports a `Pool` connected using `db_string`
+const pool = require('../db'); // Make sure this exports a Pool connected using db_string
 
 // GET all employees
 router.get('/', async (req, res) => {
@@ -13,14 +13,27 @@ router.get('/', async (req, res) => {
   }
 });
 
+// ADD a new employee
 router.post('/add', async (req, res) => {
-  const { nom, paie, departement, role, joiningDate, contractType, img, departementColor } = req.body;
+  console.log('Request body:', req.body);
+  const { 
+    joiningDate, 
+    payroll, 
+    departement, 
+    role, 
+    contractType, 
+    img, 
+    departementColor, 
+    name 
+  } = req.body;
 
   try {
     const result = await pool.query(
-      `INSERT INTO employees (nom, paie, departement, role, joiningDate, contractType, img, departementColor)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`,
-      [nom, paie, departement, role, joiningDate, contractType, img, departementColor]
+      `INSERT INTO employees 
+        (joining_date, payroll, departement, role, contract_type, img, departement_color, name)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+      RETURNING *`,
+      [joiningDate, payroll, departement, role, contractType, img, departementColor, name]
     );
     res.status(201).json(result.rows[0]);
   } catch (err) {
@@ -29,18 +42,34 @@ router.post('/add', async (req, res) => {
   }
 });
 
-
 // UPDATE employee by ID
 router.put('/update/:id', async (req, res) => {
   const { id } = req.params;
-  const { nom, paie, departement, role, joiningDate, contractType, img } = req.body;
+  const { 
+    name, 
+    payroll, 
+    departement, 
+    role, 
+    joiningDate, 
+    contractType, 
+    img, 
+    departementColor 
+  } = req.body;
 
   try {
     const result = await pool.query(
       `UPDATE employees
-       SET nom = $1, paie = $2, departement = $3, role = $4, joiningDate = $5, contractType = $6, img = $7
-       WHERE id = $8 RETURNING *`,
-      [nom, paie, departement, role, joiningDate, contractType, img, id]
+       SET name = $1,
+           payroll = $2,
+           departement = $3,
+           role = $4,
+           joining_date = $5,
+           contract_type = $6,
+           img = $7,
+           departement_color = $8
+       WHERE id = $9
+       RETURNING *`,
+      [name, payroll, departement, role, joiningDate, contractType, img, departementColor, id]
     );
 
     if (result.rowCount === 0) {
