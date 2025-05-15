@@ -1,14 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CiBoxList } from "react-icons/ci";
 import { FaRegAddressCard } from "react-icons/fa";
 import Search from './dashboardComponents/Search';
 import ListView from './dashboardComponents/ListView';
 import CardView from './dashboardComponents/CardView';
-import data from '../data/dummy.json';
 import { useStateContext } from '../contextProvider';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function Dashboard() {
-  const {view, setView} = useStateContext();
+  const { view, setView } = useStateContext();
+  const [employees, setEmployees] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Fetch employees
+  useEffect(() => {
+    const fetchEmployees = async () => {
+      try {
+        const res = await fetch(`${API_URL}/api/employees`);
+        if (!res.ok) {
+          throw new Error('Failed to fetch employees');
+        }
+        const data = await res.json();
+        setEmployees(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchEmployees();
+  }, []);
 
   return (
     <div className='bg-white w-full p-8 rounded-xl shadow-md'>
@@ -21,9 +45,7 @@ function Dashboard() {
           <button
             onClick={() => setView('list')}
             className={`flex items-center gap-1 px-2 py-1 rounded-md text-sm transition-colors duration-300 ${
-              view === 'list'
-                ? 'bg-orange-500 text-white'
-                : 'bg-white text-black hover:bg-orange-100'
+              view === 'list' ? 'bg-orange-500 text-white' : 'bg-white text-black hover:bg-orange-100'
             }`}
           >
             <CiBoxList className="text-base" />
@@ -32,9 +54,7 @@ function Dashboard() {
           <button
             onClick={() => setView('card')}
             className={`flex items-center gap-1 px-2 py-1 rounded-md text-sm transition-colors duration-300 ${
-              view === 'card'
-                ? 'bg-orange-500 text-white'
-                : 'bg-white text-black hover:bg-orange-100'
+              view === 'card' ? 'bg-orange-500 text-white' : 'bg-white text-black hover:bg-orange-100'
             }`}
           >
             <FaRegAddressCard className="text-base" />
@@ -42,23 +62,30 @@ function Dashboard() {
           </button>
         </div>
       </div>
+
       <Search />
+
+      {/* Show loading or error */}
+      {loading && <p>Chargement des employés...</p>}
+      {error && <p className="text-red-500">{error}</p>}
+
       {/* Render list view */}
-      {view === 'list' && (
+      {view === 'list' && !loading && !error && (
         <div className="border-x space-y-4">
-          {data.map((person, index) => (
+          {employees.map((person, index) => (
             <ListView key={index} {...person} />
           ))}
         </div>
       )}
+
       {/* Render card view */}
-        {view === 'card' && (
-            <div className="flex flex-wrap gap-4 mt-6 shadow-sm">
-            {data.map((person, index) => (
-                <CardView key={index} {...person} />
-            ))}
-            </div>
-        )}
+      {view === 'card' && !loading && !error && (
+        <div className="flex flex-wrap gap-4 mt-6 shadow-sm">
+          {employees.map((person, index) => (
+            <CardView key={index} {...person} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
